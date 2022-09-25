@@ -1,15 +1,21 @@
 package com.ibnu.latihanpokeapi.api
 
 import com.ibnu.latihanpokeapi.PokemonResponse
+import com.ibnu.latihanpokeapi.ResultsItem
 import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiSerrvice {
-
-    @GET("api/v2/pokemon-form/?offset=0&limit=1323}")
+    //?offset=0&limit=905
+    @GET("api/v2/pokemon")
     fun getPokemon(
-        // gk bisa gunain path klo terlalu spesifik seperti limit={batas}
-//        @Path("offset") offset: String,
-//        @Path("batas") batas: String,
+        @Query("offset") offset: Int,
+        @Query("limit") limit: Int,
     ): Call<PokemonResponse>
+
+    @GET("api/v2/pokemon/{id}")
+    fun getPoke(
+        @Path("id") id: String,
+    ): Call<ResultsItem>
+
 }

@@ -27,5 +27,6 @@ class ApiConfig {
 
             return retrofit.create(ApiSerrvice::class.java)
         }
+
     }
 }

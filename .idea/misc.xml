@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/AndroidStudioProject/LatihanPokeAPI/app/src/main/res/layout/activity_list_pokemon.xml" value="0.33" />
         <entry key="..\:/AndroidStudioProject/LatihanPokeAPI/app/src/main/res/layout/activity_main.xml" value="0.2630208333333333" />
+        <entry key="..\:/AndroidStudioProject/LatihanPokeAPI/app/src/main/res/layout/activity_second.xml" value="0.278125" />
+        <entry key="..\:/AndroidStudioProject/LatihanPokeAPI/app/src/main/res/layout/item_poke.xml" value="0.67" />
         <entry key="..\:/AndroidStudioProject/LatihanPokeAPI/app/src/main/res/layout/item_pokemon.xml" value="0.25" />
       </map>
     </option>

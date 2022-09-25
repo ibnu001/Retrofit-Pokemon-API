@@ -6,21 +6,25 @@ import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ibnu.latihanpokeapi.adapter.PokemonAdapter
 import com.ibnu.latihanpokeapi.api.ApiConfig
 import com.ibnu.latihanpokeapi.databinding.ActivityListPokemonBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.collections.ArrayList
 
 class ListPokemonActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityListPokemonBinding
+    private lateinit var binding: ActivityListPokemonBinding
 
     companion object {
         private const val TAG = "ListPokemonActivity"
+//        const val ID = "id"
     }
+
+    private var offset: Int = 0
+    private val limit: Int = 20
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,23 +32,40 @@ class ListPokemonActivity : AppCompatActivity() {
         binding = ActivityListPokemonBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // URL pokemon all list : https://pokeapi.co/api/v2/pokemon-form/?offset=0&limit=1323
-        // offset = 0
-        // limit  = 1323
-
-        val layoutManager = GridLayoutManager(this, 2)
+        val layoutManager = LinearLayoutManager(this)
         binding.rvListPokemon.layoutManager = layoutManager
 
-        val itemDescription = DividerItemDecoration(this, layoutManager.orientation)
-        binding.rvListPokemon.addItemDecoration(itemDescription)
+        // garis hitam pemisah item
+//        val itemDescription = DividerItemDecoration(this, layoutManager.orientation)
+//        binding.rvListPokemon.addItemDecoration(itemDescription)
 
         findPokemon()
+
+        binding.btnNext.setOnClickListener {
+            if (offset < 1140) {
+                offset += 20
+            }
+
+            findPokemon()
+
+            Log.e(TAG, "onCreate: off : $offset, lim : $limit")
+        }
+
+        binding.btnPrevious.setOnClickListener {
+            if (offset != 0) {
+                offset -= 20
+            }
+
+            findPokemon()
+
+            Log.e(TAG, "onCreate: off : $offset, lim : $limit")
+        }
     }
 
     private fun findPokemon() {
         showLoading(true)
 
-        val client = ApiConfig.getApiService().getPokemon()
+        val client = ApiConfig.getApiService().getPokemon(offset, limit)
 
         client.enqueue(object : Callback<PokemonResponse> {
             override fun onResponse(
@@ -58,6 +79,7 @@ class ListPokemonActivity : AppCompatActivity() {
 
                     if (responseBody != null) {
                         setPokemonData(responseBody.results)
+
                     }
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
@@ -76,16 +98,15 @@ class ListPokemonActivity : AppCompatActivity() {
 
         for (pokemon in pokemonList) {
             listItem.add(
-                pokemon.name
-//                """
-//                    ${pokemon.name}
-//                    - Detail : ${pokemon.url}
-//                """.trimIndent()
+                """
+                    ${pokemon.name}
+                    - detail : ${pokemon.url}
+                """.trimIndent()
             )
         }
 
         // untuk sort item nya
-        listItem.sort()
+//        listItem.sort()
 
         val adapter = PokemonAdapter(listItem)
 

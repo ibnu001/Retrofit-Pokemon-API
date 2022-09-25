@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class PokemonResponse(
 
 	@field:SerializedName("results")
-	val results: List<ResultsItem>
+	val results: List<ResultsItem>,
 )
 
 data class ResultsItem(
@@ -14,5 +14,13 @@ data class ResultsItem(
 	val name: String,
 
 	@field:SerializedName("url")
-	val url: String
+	val url: String,
+
+	@field:SerializedName("sprites")
+	val sprites: Sprites
+)
+
+data class Sprites(
+    @field:SerializedName("front_default")
+    val frontDefault: String,
 )
